@@ -1,6 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-
+from sklearn.preprocessing import StandardScaler
 
 # Load the dataset
 df = pd.read_csv('data/winequality-red.csv', sep=';')
@@ -27,6 +27,19 @@ plt.xlabel('Alcohol')
 plt.ylabel('Quality')
 plt.title('Scatter Plot of Alcohol vs. Wine Quality')
 
+# Preprocess the data
+print(df.isnull().sum())  # Check for missing values
+df.dropna(inplace=True)  # Remove any rows that contain missing values
+X = df.iloc[:, :-1].values  # Split the data into X and y
+y = df.iloc[:, -1].values
+scaler = StandardScaler()  # Scale the features
+X = scaler.fit_transform(X)
+df = pd.get_dummies(df, columns=['quality'])  # One-hot encode any categorical variables
+
+# Display the preprocessed data
+print(X)
+print(y)
+print(df.head())
 
 # Display the plot
 plt.show()
