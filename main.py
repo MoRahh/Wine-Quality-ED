@@ -2,6 +2,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import r2_score
 
 # Load the dataset
 df = pd.read_csv('data/winequality-red.csv', sep=';')
@@ -46,13 +48,18 @@ print("y_train shape:", y_train.shape)
 print("X_test shape:", X_test.shape)
 print("y_test shape:", y_test.shape)
 
-# Display the first few rows of the training set
-print("Training set:")
-print(pd.DataFrame(X_train).head())
+# Train the linear regression model on the preprocessed training data
+regressor = LinearRegression()
+regressor.fit(X_train, y_train)
 
-# Display the first few rows of the testing set
-print("Testing set:")
-print(pd.DataFrame(X_test).head())
+# Use the trained model to make predictions on the preprocessed test data
+y_pred = regressor.predict(X_test)
+
+# Calculate the R-squared score
+r2 = r2_score(y_test, y_pred)
+
+# Display the R-squared score
+print("R-squared score:", r2)
 
 # Display the plot
 plt.show()
